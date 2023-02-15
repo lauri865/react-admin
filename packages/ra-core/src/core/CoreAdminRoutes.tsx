@@ -76,43 +76,41 @@ export const CoreAdminRoutes = (props: CoreAdminRoutesProps) => {
             <Route
                 path="/*"
                 element={
-                    <div>
-                        <Layout dashboard={dashboard} menu={menu} title={title}>
-                            <Routes>
-                                {customRoutesWithLayout}
-                                {Children.map(resources, resource => (
-                                    <Route
-                                        key={resource.props.name}
-                                        path={`${resource.props.name}/*`}
-                                        element={resource}
-                                    />
-                                ))}
+                    <Layout dashboard={dashboard} menu={menu} title={title}>
+                        <Routes>
+                            {customRoutesWithLayout}
+                            {Children.map(resources, resource => (
                                 <Route
-                                    path="/"
-                                    element={
-                                        dashboard ? (
-                                            <WithPermissions
-                                                authParams={defaultAuthParams}
-                                                component={dashboard}
-                                            />
-                                        ) : resources.length > 0 ? (
-                                            <Navigate
-                                                to={createPath({
-                                                    resource:
-                                                        resources[0].props.name,
-                                                    type: 'list',
-                                                })}
-                                            />
-                                        ) : null
-                                    }
+                                    key={resource.props.name}
+                                    path={`${resource.props.name}/*`}
+                                    element={resource}
                                 />
-                                <Route
-                                    path="*"
-                                    element={<CatchAll title={title} />}
-                                />
-                            </Routes>
-                        </Layout>
-                    </div>
+                            ))}
+                            <Route
+                                path="/"
+                                element={
+                                    dashboard ? (
+                                        <WithPermissions
+                                            authParams={defaultAuthParams}
+                                            component={dashboard}
+                                        />
+                                    ) : resources.length > 0 ? (
+                                        <Navigate
+                                            to={createPath({
+                                                resource:
+                                                    resources[0].props.name,
+                                                type: 'list',
+                                            })}
+                                        />
+                                    ) : null
+                                }
+                            />
+                            <Route
+                                path="*"
+                                element={<CatchAll title={title} />}
+                            />
+                        </Routes>
+                    </Layout>
                 }
             />
         </Routes>
